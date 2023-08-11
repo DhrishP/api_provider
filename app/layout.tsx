@@ -21,6 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   await createCustomer();
+
   return (
     <ClerkProvider>
       <html lang="en">

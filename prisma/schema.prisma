@@ -5,19 +5,25 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id String @id @default(uuid())
-  name String?
-  email String[] @unique
-  image String?
-  authId String?
+model User {
+  id             String   @id @default(uuid())
+  name           String?
+  email          String[] @unique
+  image          String?
+  authId         String?
   stripe_cust_id String?
+  stripe_sub_items String?
+}
 
+model Log {
+  id        String   @id @default(uuid())
+  userId    String 
+  method    String
+  status    Int
+  createdAt DateTime @default(now())
 }
