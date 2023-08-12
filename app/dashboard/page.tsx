@@ -49,7 +49,7 @@ const DashboardPage = async () => {
               Here{" "}
             </Link>
           }{" "}
-          to buy one to get access to our API key's
+          to buy one to get access to our API keys
         </div>
       </>
     );
@@ -70,7 +70,7 @@ const DashboardPage = async () => {
         role="alert"
       >
         <span className="font-bold">You have a subscription!</span> These are
-        the API key's you have access to
+        the API keys you have access to
       </div>
       <div>
         <div className="flex justify-center">

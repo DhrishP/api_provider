@@ -11,7 +11,10 @@ const HandleCopy = ({ api_key }: { api_key: string | undefined | null }) => {
     toast.success("key copied");
   };
   return (
-    <span className="hover:bg-slate-300 cursor-pointer p-2 rounded-lg transition-colors" onClick={HandleCopy}>
+    <span
+      className="hover:bg-slate-300 cursor-pointer p-2 rounded-lg transition-colors"
+      onClick={HandleCopy}
+    >
       <Copy className="w-4  h-4 " />
     </span>
   );
