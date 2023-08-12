@@ -4,6 +4,7 @@ import { Urbanist } from "next/font/google";
 import { ClerkProvider, auth, currentUser } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { createCustomer } from "@/lib/stripe";
+import { ToastProvider } from "@/providers/toast-provider";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={urbanist.className}>
+        <ToastProvider />
           <Navbar />
           {children}
         </body>

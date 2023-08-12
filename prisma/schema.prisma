@@ -11,18 +11,19 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  name           String?
-  email          String[] @unique
-  image          String?
-  authId         String?
-  stripe_cust_id String?
+  id               String   @id @default(uuid())
+  name             String?
+  email            String[] @unique
+  image            String?
+  authId           String?
+  stripe_cust_id   String?  
   stripe_sub_items String?
+  api_key          String?
 }
 
 model Log {
   id        String   @id @default(uuid())
-  userId    String 
+  userId    String
   method    String
   status    Int
   createdAt DateTime @default(now())

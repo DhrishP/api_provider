@@ -1,6 +1,6 @@
-
 import prisma from "@/prisma/client";
 import { auth, currentUser } from "@clerk/nextjs";
+import { randomUUID } from "crypto";
 import Stripe from "stripe";
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -13,29 +13,39 @@ export const hasSubscrip = async () => {
     const findUser = await prisma.user.findFirst({
       where: {
         authId: userId,
-        name: user.firstName?.concat(user.lastName || ""),
       },
     });
     const subs = await stripe.subscriptions.list({
       customer: String(findUser?.stripe_cust_id),
     });
+    if (subs.data.length>0 && !findUser?.api_key && findUser) {
+      await prisma.user.update({
+        where: {
+          email: user.emailAddresses.map((e) => e.emailAddress),
+        },
+        data: {
+          api_key: "secr_" + randomUUID(),
+        },
+      });
+    }
     return subs.data.length > 0;
   }
   return false;
 };
-export const createCheckoutLink = async (customer:string) => {
-  const checkout:Stripe.Checkout.Session= await stripe.checkout.sessions.create({
-    success_url:`http://localhost:3000/dashboard/billing?sucess=true`,
-    cancel_url:`http://localhost:3000/dashboard/billing?sucess=false`,
-    mode:'subscription',
-    customer:customer,
-    line_items:[
-      {
-        price:'price_1NdxGySIC4BoERJpj21zN5yA'
-      }
-    ]
-  }) 
-  return checkout.url
+export const createCheckoutLink = async (customer: string) => {
+  const checkout: Stripe.Checkout.Session =
+    await stripe.checkout.sessions.create({
+      success_url: `http://localhost:3000/dashboard?sucess=true`,
+      cancel_url: `http://localhost:3000/dashboard?cancel=false`,
+      mode: "subscription",
+      customer: customer,
+      line_items: [
+        {
+          price: "price_1NdxGySIC4BoERJpj21zN5yA",
+        },
+      ],
+    });
+  return checkout.url;
 };
 
 export const createCustomer = async () => {
@@ -52,7 +62,7 @@ export const createCustomer = async () => {
       const customer = await stripe.customers.create({
         email: String(user.emailAddresses[0].emailAddress),
       });
-          await prisma.user.create({
+      await prisma.user.create({
         data: {
           email: user.emailAddresses.map((e) => e.emailAddress),
           authId: userId,
@@ -63,13 +73,12 @@ export const createCustomer = async () => {
       });
     }
     const findCustId = await prisma.user.findFirst({
-      where:{
-        authId:userId,
-        name:user.firstName?.concat(user.lastName || "")
-      }
-    })
-    return findCustId?.stripe_cust_id
+      where: {
+        authId: userId,
+        name: user.firstName?.concat(user.lastName || ""),
+      },
+    });
+    return findCustId?.stripe_cust_id;
   }
-  return null
-
+  return null;
 };
