@@ -5,15 +5,16 @@ import toast from "react-hot-toast";
 
 const ToastPaid = () => {
   const searchParams = useSearchParams();
+  console.log(searchParams.get("cancel"))
   useEffect(() => {
-    if (searchParams.get("success")) {
+    if (searchParams.get("success") === "true") {
       toast.success("Payment was succesful");
     }
-    if (searchParams.get("cancel")) {
-      toast.error("Something went wrong");
+    if (searchParams.get("cancel") === "true") {
+     toast.error("Something went wrong");
     }
-  });
-  return <div>ToastPaid</div>;
+  },[]);
+ return <div></div>
 };
 
 export default ToastPaid;
