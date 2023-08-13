@@ -18,8 +18,8 @@ const Navbar = () => {
         </div>
         <div>
           <ul className="flex items-center space-x-4 mr-2">
-            <li className="cursor-pointer">Features</li>
-            <li className="cursor-pointer">Pricing</li>
+            <Link href={"/features"}>form</Link>
+            <Link href={"/dashboard"}>Pricing</Link>
             <li className="cursor-pointer">
               <Link
                 href={"/dashboard"}
