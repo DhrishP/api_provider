@@ -35,8 +35,8 @@ export const hasSubscrip = async () => {
 export const createCheckoutLink = async (customer: string) => {
   const checkout: Stripe.Checkout.Session =
     await stripe.checkout.sessions.create({
-      success_url: `https://api-provider-dp.vercel.app/dashboard?success=true`,
-      cancel_url: `https://api-provider-dp.vercel.app/dashboard?cancel=true`,
+      success_url: `http://localhost:3000/dashboard?success=true`,
+      cancel_url: `http://localhost:3000/dashboard?cancel=true`,
       mode: "subscription",
       customer: customer,
       line_items: [

@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 
 const ToastPaid = () => {
   const searchParams = useSearchParams();
-  console.log(searchParams.get("cancel"))
   useEffect(() => {
     if (searchParams.get("success") === "true") {
       toast.success("Payment was succesful");
