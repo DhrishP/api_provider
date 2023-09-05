@@ -1,22 +1,13 @@
 "use client";
-import React, { useRef } from "react";
 import { toast } from "react-hot-toast";
 
 const FeaturePage = () => {
-  const emailref = useRef<HTMLInputElement>(null);
-  const passref = useRef<HTMLInputElement>(null);
   const HandleSubmit = async () => {
-    const email = emailref.current?.value;
-    const pass = passref.current?.value;
-    if (!email || !pass) return toast.error("Something went wrong");
-    const res = await fetch("/api/nodemail", {
-      method: "POST",
-      body: JSON.stringify({ email, pass }),
-      headers: {"Content-Type":"application/json"}
-    });
-    const fetchres = await res.json()
-    if(!fetchres) await toast.error("something went wrong")
-    toast.success("Details sent to ur mail")
+    const res = await fetch("/api/nodemail");
+    const fetchres = await res.json();
+    if (!fetchres)return toast.error("something went wrong");
+    console.log(fetchres);
+    toast.success("Details sent to ur mail");
   };
   return (
     <form onSubmit={HandleSubmit} className="mt-20">
@@ -25,7 +16,6 @@ const FeaturePage = () => {
           Your email
         </label>
         <input
-          ref={emailref}
           type="email"
           id="email"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -38,7 +28,6 @@ const FeaturePage = () => {
           Your password
         </label>
         <input
-          ref={passref}
           type="password"
           id="password"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
